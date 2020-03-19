@@ -1,0 +1,13 @@
+{
+    "python.pythonPath": "..\\djangoenv\\Scripts\\python.exe",
+    "emmet.includeLanguages": {
+        "django-html": "html"
+    },
+    "python.testing.pytestEnabled": true,
+    "python.testing.nosetestsEnabled": false,
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestArgs": [
+        "plots"
+    ],
+    "python.formatting.provider": "autopep8"
+}
