@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "..\\djangoenv\\Scripts\\python.exe",
+    "python.pythonPath": "c:\\Users\\PC\\Documents\\Descargas chrome\\NO TOCAR MALDITO IDIOTA!! ZZZZ\\Python37\\django\\djangoenv\\Scripts\\python.exe",
     "emmet.includeLanguages": {
         "django-html": "html"
     },
@@ -9,5 +9,9 @@
     "python.testing.pytestArgs": [
         "plots"
     ],
-    "python.formatting.provider": "autopep8"
+    "python.formatting.provider": "autopep8",
+    "[django-html]": {
+        "editor.tabSize": 2,
+        "editor.detectIndentation": false
+    }
 }

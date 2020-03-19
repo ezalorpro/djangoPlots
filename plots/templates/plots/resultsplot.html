@@ -1,0 +1,15 @@
+{% extends "plots/base.html" %}
+{% load material_form %}
+
+{% block content %}
+
+<div class="mdl-grid">
+  <div class="mdl-cell mdl-cell--4-col">
+    <div class="mdl-card mdl-shadow--2dp">
+      {% autoescape off %}
+      {{plot_div}}
+      {% endautoescape %}
+    </div>
+  </div>
+</div>
+{% endblock content %}

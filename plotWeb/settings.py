@@ -31,6 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'material',
+    'material.frontend',
     'plots.apps.PlotsConfig',
     'django.contrib.admin',
     'django.contrib.auth',

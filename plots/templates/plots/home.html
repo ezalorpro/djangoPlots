@@ -1,17 +1,37 @@
 {% extends "plots/base.html" %}
+{% comment %} {% load material_form %} {% endcomment %}
 
 {% block content %}
 
 <div class="mdl-grid">
-    <div class="mdl-cell mdl-cell--4-col">
-        <h3> Que tal la graficucha?</h3>
+  <div class="mdl-cell mdl-cell--4-col">
+    <h4> Ingrese los vectores para (X, Y)</h4>
+    <form action="{% url 'plots:Home' %}" method="POST">
+      {% csrf_token %}
+      {% for field in form %}
+      <div class="mdl-textfield mdl-js-textfield">
+        <label class="mdl-textfield__label" for="{{ field.name }}">{{ field.label }}</label>
+        {{ field }}
+      </div>
+      {% endfor %}
+      <div>
+        <button type="submit" class="mdl-button mdl-js-button mdl-button--raised">Submit</button>
+      </div>
+    </form>
+  </div>
+  {% if plot_div %}
+  <div class="mdl-cell mdl-cell--4-col">
+    <div class="mdl-card mdl-shadow--2dp">
+      {% autoescape off %}
+      {{plot_div}}
+      {% endautoescape %}
     </div>
-    <div class="mdl-cell mdl-cell--4-col">
-        <div class="mdl-card mdl-shadow--2dp">
-                {% autoescape off %}
-                {{plot_div}}
-                {% endautoescape %}
-        </div>
-    </div>
+  </div>
+  {% endif %}
+
 </div>
+
+
+
+
 {% endblock content %}
