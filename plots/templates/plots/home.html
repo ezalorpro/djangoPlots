@@ -1,37 +1,35 @@
 {% extends "plots/base.html" %}
-{% comment %} {% load material_form %} {% endcomment %}
 
 {% block content %}
 
-<div class="mdl-grid">
-  <div class="mdl-cell mdl-cell--4-col">
-    <h4> Ingrese los vectores para (X, Y)</h4>
-    <form action="{% url 'plots:Home' %}" method="POST">
+<div class="card-panel hoverable">
+  <div class="row">
+    <form action="{% url 'plots:Home' %}" method="POST" class="col s7">
+      <h4> Ingrese los vectores para (X, Y)</h4>
       {% csrf_token %}
       {% for field in form %}
-      <div class="mdl-textfield mdl-js-textfield">
-        <label class="mdl-textfield__label" for="{{ field.name }}">{{ field.label }}</label>
-        {{ field }}
+      <div class="row">
+        <div class="input-field col s12">
+          {{ field }}
+          <label for="{{ field.name }}" class="active">{{ field.label }}</label>
+        </div>
       </div>
       {% endfor %}
-      <div>
-        <button type="submit" class="mdl-button mdl-js-button mdl-button--raised">Submit</button>
+      <div class="row">
+        <div class="col s12">
+          <button type="submit" class="btn waves-effect waves-light  light-blue accent-4">Enviar<i
+              class="material-icons right">send</i></button>
+        </div>
       </div>
     </form>
-  </div>
-  {% if plot_div %}
-  <div class="mdl-cell mdl-cell--4-col">
-    <div class="mdl-card mdl-shadow--2dp">
+    {% if plot_div %}
+    <div class="col s5">
       {% autoescape off %}
       {{plot_div}}
       {% endautoescape %}
     </div>
   </div>
-  {% endif %}
-
 </div>
-
-
-
+{% endif %}
 
 {% endblock content %}

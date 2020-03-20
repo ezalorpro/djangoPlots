@@ -18,7 +18,7 @@ def home(request):
 
         trace = go.Scatter(x=x_data, y=y_data,
                         mode='lines', name='sin',
-                        opacity=0.8, marker_color='blue')
+                        opacity=1, marker_color='blue')
         dataPlot = [trace]
         layout = go.Layout(
             margin=dict(l=10, r=20, t=40, b=20),
