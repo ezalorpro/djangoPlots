@@ -1,8 +1,11 @@
-from django.shortcuts import render, get_object_or_404
 from django.views.decorators.csrf import csrf_protect
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth import login, authenticate, logout
+from django.contrib import messages
+from django.shortcuts import render, get_object_or_404, redirect
 from plotly.offline import plot
 
-from .forms import DataForm
+from .forms import DataForm, UserForm
 
 import plotly.graph_objs as go
 import numpy as np
@@ -42,6 +45,44 @@ def home(request):
         return render(request, 'plots/home.html', context={'form': form})
 
 
+def signup(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect('plots:Home')
+    else:
+        form = UserCreationForm()
+    
+    return render(request, 'plots/registrar.html', {'form': form})
+
+
+def logoutview(request):
+    logout(request)
+    return redirect('plots:Home')
+ 
+
+def user_login(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request, request.POST)
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(username=username, password=password)
+        if user:
+            login(request, user)
+            return redirect('plots:Home')
+        else:
+            messages.error(request, 'Usuario y/o contraseña incorrecto/s')
+            return redirect('plots:user_login')
+    
+    form = AuthenticationForm()
+    return render(request, 'plots/user_login.html', {'form': form})
+    
+    
 def resultsplot(request):
     data = request.POST
     x_data = json.loads(data['x_points'])

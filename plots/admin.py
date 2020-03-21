@@ -1,6 +1,6 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import PlotsLy
+from .models import UserModel
 
-admin.site.register(PlotsLy)
+admin.site.register(UserModel)

@@ -24,20 +24,36 @@
 <body>
   <nav>
     <div class="nav-wrapper light-blue accent-4">
-      <a href="#!" class="brand-logo">Logo</a>
+      <a href="{% url 'plots:Home' %}" class="brand-logo">Logo</a>
       <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+      {% if user.is_anonymous %}
       <ul class="right hide-on-med-and-down">
         <li><a href="">Sass</a></li>
         <li><a href="">Components</a></li>
-        <li><a href="">Javascript</a></li>
-        <li><a href="">Mobile</a></li>
+        <li><a href="{% url 'plots:registrar'%}">registrarse</a></li>
+        <li><a href="{% url 'plots:user_login' %}">login</a></li>
       </ul>
+      {% else %}
+      <ul class="right hide-on-med-and-down">
+        <li><a href="">Sass</a></li>
+        <li><a href="">Components</a></li>
+        <li><a href="{% url 'plots:logout'%}">Cerrar session</a></li>
+      </ul>
+      {% endif %}
+      {% if user.is_anonymous %}
       <ul class="sidenav" id="mobile-demo">
         <li><a href="">Sass</a></li>
         <li><a href="">Components</a></li>
-        <li><a href="">Javascript</a></li>
-        <li><a href="">Mobile</a></li>
+        <li><a href="{% url 'plots:registrar'%}">registrarse</a></li>
+        <li><a href="{% url 'plots:user_login' %}">login</a></li>
       </ul>
+      {% else %}
+      <ul class="sidenav" id="mobile-demo">
+        <li><a href="">Sass</a></li>
+        <li><a href="">Components</a></li>
+        <li><a href="{% url 'plots:logout'%}">Cerrar session</a></li>
+      </ul>
+      {% endif %}
     </div>
   </nav>
 
