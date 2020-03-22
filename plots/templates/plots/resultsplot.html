@@ -4,7 +4,7 @@
 
 <div class="card-panel hoverable">
   <div class="row">
-    <form class="col s5">
+    <form id="id_formaPlots" class="col s6">
       <h5> Ingrese los vectores para (X, Y)</h5>
       {% for field in form %}
       <div class="input-field col s12">
@@ -18,7 +18,7 @@
       </div>
     </form>
 
-    <div id="plot-content" class="col s7">
+    <div id="plot-content" class="col s6">
       {% autoescape off %}
       {{div_bok}}
       {{script_bok}}
@@ -27,5 +27,28 @@
 
   </div>
 </div>
-
 {% endblock content %}
+
+{% block scriptsPlots %}
+  <script src="http://cdn.bokeh.org/bokeh/release/bokeh-2.0.0.min.js"></script>
+  <script src="http://cdn.bokeh.org/bokeh/release/bokeh-widgets-2.0.0.min.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function () {
+      $('#id_formaPlots').submit(function (e) {
+        e.preventDefault()
+        $.ajax({
+          url: "{% url 'plots:update_data'%}",
+          type: 'post',
+          data: {
+            'csrfmiddlewaretoken': "{{ csrf_token }}",
+            'x_points': $("#id_x_points").val(),
+            'y_points': $("#id_y_points").val()
+          },
+          success: function (data) {
+            $('#plot-content').html(data)
+          }
+        })
+      });
+    });
+  </script>
+{% endblock scriptsPlots %}

@@ -3,7 +3,7 @@
 {% block content %}
 
 <div class="row">
-  <div class="card-panel hoverable col s8 offset-s2">
+  <div class="card-panel hoverable col s6 offset-s3">
     <form action="{% url 'plots:user_login' %}" method="POST" class="col s12">
       <input type="hidden" name="next"
         value="{% if request.POST.next %}{{ request.POST.next }}{% else %}{{ request.GET.next }}{% endif %}" />
