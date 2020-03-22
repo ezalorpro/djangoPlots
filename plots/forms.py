@@ -1,5 +1,6 @@
 from django import forms
 from .models import UserModel
+from django.utils.translation import gettext, gettext_lazy as _
 
 
 class DataForm(forms.Form):
@@ -8,5 +9,17 @@ class DataForm(forms.Form):
 
 
 class UserForm(forms.Form):
-    username = forms.CharField(label='Usuario')
-    password = forms.CharField(label='Contraseña', widget=forms.PasswordInput())
+    username = forms.CharField(label='Usuario', widget=forms.TextInput(attrs={'autofocus': True}))
+    password = forms.CharField(
+        label=_("Password"),
+        strip=False,
+        widget=forms.PasswordInput(attrs={'autocomplete': 'current-password'}),
+    )
+
+    error_messages = {
+        'invalid_login': _(
+            "Please enter a correct %(username)s and password. Note that both "
+            "fields may be case-sensitive."
+        ),
+        'inactive': _("This account is inactive."),
+    }

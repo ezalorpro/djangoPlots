@@ -2,13 +2,31 @@
 
 {% block content %}
 
-<div class="mdl-grid">
-  <div class="mdl-cell mdl-cell--4-col">
-    <div class="mdl-card mdl-shadow--2dp">
+<div class="card-panel hoverable">
+  <div class="row">
+    <form action="{% url 'plots:resultsplot' %}" method="POST" class="col s5">
+      <h5> Ingrese los vectores para (X, Y)</h5>
+      {% csrf_token %}
+      {% for field in form %}
+      <div class="input-field col s12">
+        {{ field }}
+        <label for="{{ field.name }}" class="active">{{ field.label }}</label>
+      </div>
+      {% endfor %}
+      <div class="col s12">
+        <button type="submit" class="btn waves-effect waves-light light-blue accent-4">Enviar<i
+            class="material-icons right">send</i></button>
+      </div>
+    </form>
+    {% if plot_div %}
+    <div class="col s7">
       {% autoescape off %}
       {{plot_div}}
       {% endautoescape %}
     </div>
+    {% endif %}
   </div>
 </div>
+
+
 {% endblock content %}
