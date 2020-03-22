@@ -5,15 +5,16 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseRedirect
-from plotly.offline import plot
+from bokeh.embed import components
+from bokeh import plotting as plt
 
-from .forms import DataForm, UserForm
+from .forms import DataForm
 
-import plotly.graph_objs as go
 import numpy as np
 import json
 
 # Create your views here.
+
 
 def home(request):
     return render(request, 'plots/home.html')
@@ -21,57 +22,44 @@ def home(request):
 
 @login_required
 def resultsplot(request):
-    if request.method == 'POST':
-        data = request.POST
-        x_data = json.loads(data['x_points'])
-        y_data = json.loads(data['y_points'])
+    form = DataForm()
 
-        trace = go.Scatter(x=x_data, y=y_data,
-                        mode='lines', name='sin',
-                        opacity=1, marker_color='blue')
-        dataPlot = [trace]
-        layout = go.Layout(
-            margin=dict(l=10, r=20, t=40, b=20),
-            xaxis=dict(autorange=True),
-            yaxis=dict(autorange=True)
-        )
+    x_data = [0]
+    y_data = [0]
 
-        fig = go.Figure(data=dataPlot, layout=layout)
+    # the updated/new plot
+    p = plt.figure(sizing_mode='scale_width')
 
-        plot_div = plot(fig, output_type='div',
-                        include_plotlyjs=True, show_link=False)
-        
-        form = DataForm(data)
+    p.line(x_data, y_data)
 
-        return render(request, 'plots/resultsplot.html', context={
-            'form': form,
-            'plot_div': plot_div
-        })
-    else:
-        form = DataForm()
-        
-        x_data = [0]
-        y_data = [0]
+    script_bok, div_bok = components(p)
 
-        trace = go.Scatter(x=x_data, y=y_data,
-                           mode='lines', name='sin',
-                           opacity=1, marker_color='blue')
-        dataPlot = [trace]
-        layout = go.Layout(
-            margin=dict(l=10, r=20, t=40, b=20),
-            xaxis=dict(autorange=True),
-            yaxis=dict(autorange=True)
-        )
+    return render(request, 'plots/resultsplot.html', context={
+        'form': form,
+        'div_bok': div_bok,
+        'script_bok': script_bok
+    })
 
-        fig = go.Figure(data=dataPlot, layout=layout)
 
-        plot_div = plot(fig, output_type='div',
-                        include_plotlyjs=True, show_link=False)
-        
-        return render(request, 'plots/resultsplot.html', context={
-            'form': form,
-            'plot_div': plot_div
-        })
+def update_data(request):
+    # extract nrow, ncol via ajax post - contained in request.form
+    data = request.POST
+    x_data = json.loads(data['x_points'])
+    y_data = json.loads(data['y_points'])
+    print(data)
+    # the updated/new plot
+    p = plt.figure(sizing_mode='scale_width')
+
+    p.line(x_data, y_data)
+
+    script_bok, div_bok = components(p)
+
+    # return rendered html to the browser
+
+    return render(request, 'plots/update_data.html', {
+        'div_bok': div_bok,
+        'script_bok': script_bok
+    })
 
 
 def signup(request):
@@ -86,9 +74,9 @@ def signup(request):
             return redirect('plots:Home')
     else:
         form = UserCreationForm()
-    
+
     return render(request, 'plots/registrar.html', {'form': form})
- 
+
 
 def user_login(request):
     if request.method == 'POST':
@@ -99,7 +87,7 @@ def user_login(request):
             user = authenticate(username=username, password=password)
             if user:
                 login(request, user)
-                if request.POST.get('next',None):
+                if request.POST.get('next', None):
                     return HttpResponseRedirect(request.POST['next'])
                 else:
                     return redirect('plots:Home')
@@ -109,9 +97,8 @@ def user_login(request):
     else:
         form = AuthenticationForm()
     return render(request, 'plots/user_login.html', {'form': form})
-    
+
 
 def logoutview(request):
     logout(request)
     return redirect('plots:Home')
-

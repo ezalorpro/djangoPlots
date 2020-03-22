@@ -8,17 +8,9 @@
 
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-  <script src="https://code.jquery.com/jquery-3.2.1.min.js" type="text/javascript"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-
-  <script>
-    $(".dropdown-trigger").dropdown();
-
-    $(document).ready(function () {
-      $('.sidenav').sidenav();
-    });
-  </script>
-
+  <link href="http://cdn.bokeh.org/bokeh/release/bokeh-2.0.0.min.css" rel="stylesheet" type="text/css">
+  <link href="http://cdn.bokeh.org/bokeh/release/bokeh-widgets-2.0.0.min.css" rel="stylesheet" type="text/css">
+  
 </head>
 
 <body>
@@ -64,6 +56,40 @@
       {% endblock %}
     </div>
   </main>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" type="text/javascript"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="http://cdn.bokeh.org/bokeh/release/bokeh-2.0.0.min.js"></script>
+  <script src="http://cdn.bokeh.org/bokeh/release/bokeh-widgets-2.0.0.min.js"></script>
+
+  <script>
+    $(".dropdown-trigger").dropdown();
+
+    $(document).ready(function () {
+      $('.sidenav').sidenav();
+    });
+  </script>
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      $('#graficar').on('click', function (e) {
+        e.preventDefault()
+        $.ajax({
+          url: "{% url 'plots:update_data'%}",
+          type: 'post',
+          data: {
+            'csrfmiddlewaretoken': "{{ csrf_token }}",
+            'x_points': $("#id_x_points").val(),
+            'y_points': $("#id_y_points").val()
+          },
+          success: function (data) {
+            $('#plot-content').html(data)
+          }
+        })
+      });
+    });
+  </script>
 
 </body>
 
