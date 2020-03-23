@@ -1,40 +1,86 @@
 {% extends 'plots/base.html' %}
 
+{% block cssContent %}
+<style>
+  .input-field label {
+    pointer-events: all !important;
+    margin-top: -10px !important;
+  }
+</style>
+{% endblock cssContent %}
+
 {% block content %}
 <div class="row">
-  <div class="card-panel hoverable col s6 offset-s3">
+  <div class="card-panel hoverable col s8 offset-s2">
     <form action="{% url 'plots:registrar' %}" method="POST" class="col s12">
-
-      <div class="row">
-        <div class="col s12">
-          <h4> Registrarse </h4>
-        </div>
-      </div>
-
       {% csrf_token %}
-      {% for field in form %}
-      <div class="row">
-        <div class="input-field col s12">
-          {{ field }}
-          <label for="{{ field.name }}" class="active ">{{ field.label }}</label>
 
-          {% if field.errors %}
-          <ul>
-            {% for error in field.errors %}
-            <li><span class="red-text text-darken-1">{{ error }}</span></li>
-            {% endfor %}
-          </ul>
-          {% endif %}
-
-        </div>
+      <div class="col s12 center" style="margin-bottom: 10px;">
+        <h5> Registrarse </h5>
       </div>
-      {% endfor %}
 
-      <div class="row">
-        <div class="col s12">
-          <button type="submit" class="btn waves-effect waves-light light-blue accent-4">Enviar<i
-              class="material-icons right">send</i></button>
-        </div>
+      <div class="input-field col s12 m12 l12">
+        {{ form.username }}
+        <label for="{{ field.username.auto_id }}" class="active ">{{ form.username.label }}</label>
+        {% if form.username.errors %}
+        <ul style="margin-top: 0px; margin-bottom: 0px;">
+          {% for error in form.username.errors %}
+          <li><span class="red-text text-darken-1">{{ error }}</span></li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+      </div>
+
+      <div class="input-field col s12 m12 l6">
+        {{ form.first_name }}
+        <label for="{{ field.first_name.auto_id }}" class="active ">{{ form.first_name.label }}</label>
+      </div>
+      <div class="input-field col s12 m12 l6">
+        {{ form.last_name }}
+        <label for="{{ field.last_name.auto_id }}" class="active ">{{ form.last_name.label }}</label>
+      </div>
+
+      <div class="input-field col s12 m12 l12">
+        {{ form.email }}
+        <label for="{{ field.email.auto_id }}" class="active ">{{ form.email.label }}</label>
+        {% if form.email.errors %}
+        <ul style="margin-top: 0px; margin-bottom: 0px;">
+          {% for error in form.email.errors %}
+          <li><span class="red-text text-darken-1">{{ error }}</span></li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+      </div>
+
+      <div class="input-field col s12 m12 l6">
+        {{ form.password1 }}
+        <label for="{{ field.password1.auto_id }}" class="active ">{{ form.password1.label }}</label>
+      </div>
+      <div class="input-field col s12 m12 l6">
+        {{ form.password2 }}
+        <label for="{{ field.password2.auto_id }}" class="active ">{{ form.password2.label }}</label>
+      </div>
+
+      <div class="col s12">
+        {% if form.password1.errors %}
+        <ul style="margin-top: -10px;">
+          {% for error in form.password1.errors %}
+          <li><span class="red-text text-darken-1">{{ error }}</span></li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+        {% if form.password2.errors %}
+        <ul style="margin-top: -10px;">
+          {% for error in form.password2.errors %}
+          <li><span class="red-text text-darken-1">{{ error }}</span></li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+      </div>
+
+      <div class="col s12" style="margin-bottom: 20px">
+        <button type="submit" class="btn waves-effect waves-light light-blue accent-4">Enviar<i
+            class="material-icons right">send</i></button>
       </div>
 
     </form>

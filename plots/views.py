@@ -1,16 +1,13 @@
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_protect
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, authenticate, logout
-from django.contrib import messages
-from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponseRedirect
+from django.shortcuts import render, redirect
 from bokeh.embed import components
 from bokeh import plotting as plt
 
-from .forms import DataForm
+from .forms import DataForm, RegistrationForm
 
-import numpy as np
 import json
 
 # Create your views here.
@@ -46,7 +43,7 @@ def update_data(request):
     data = request.POST
     x_data = json.loads(data['x_points'])
     y_data = json.loads(data['y_points'])
-    
+
     # the updated/new plot
     p = plt.figure(sizing_mode='scale_width')
 
@@ -64,7 +61,7 @@ def update_data(request):
 
 def signup(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = RegistrationForm(request.POST)
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
@@ -73,7 +70,7 @@ def signup(request):
             login(request, user)
             return redirect('plots:Home')
     else:
-        form = UserCreationForm()
+        form = RegistrationForm()
 
     return render(request, 'plots/registrar.html', {'form': form})
 
@@ -85,15 +82,12 @@ def user_login(request):
             username = request.POST.get('username')
             password = request.POST.get('password')
             user = authenticate(username=username, password=password)
-            if user:
-                login(request, user)
-                if request.POST.get('next', None):
-                    return HttpResponseRedirect(request.POST['next'])
-                else:
-                    return redirect('plots:Home')
+            login(request, user)
+            
+            if request.POST.get('next', None):
+                return redirect(request.POST['next'])
             else:
-                messages.error(request, 'Usuario y/o contraseña incorrecto/s')
-                return render(request, 'plots/user_login.html', {'form': form})
+                return redirect('plots:Home')
     else:
         form = AuthenticationForm()
     return render(request, 'plots/user_login.html', {'form': form})

@@ -1,6 +1,6 @@
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User 
 from django import forms
-from .models import UserModel
-from django.utils.translation import gettext, gettext_lazy as _
 
 
 class DataForm(forms.Form):
@@ -8,18 +8,24 @@ class DataForm(forms.Form):
     y_points = forms.CharField(label='Puntos de Y', max_length=200)
 
 
-class UserForm(forms.Form):
-    username = forms.CharField(label='Usuario', widget=forms.TextInput(attrs={'autofocus': True}))
-    password = forms.CharField(
-        label=_("Password"),
-        strip=False,
-        widget=forms.PasswordInput(attrs={'autocomplete': 'current-password'}),
-    )
+class RegistrationForm(UserCreationForm):
+    email = forms.EmailField(required=True)
+    first_name = forms.CharField(label='Nombre', required=False)
+    last_name = forms.CharField(label='Apellido',  required=False)
 
-    error_messages = {
-        'invalid_login': _(
-            "Please enter a correct %(username)s and password. Note that both "
-            "fields may be case-sensitive."
-        ),
-        'inactive': _("This account is inactive."),
-    }
+
+    class Meta:
+        model = User
+        fields = ('username', 'first_name', 'last_name',
+                  'email', 'password1', 'password2')
+
+    def save(self, commit=True):
+        user = super(RegistrationForm, self).save(commit=False)
+        user.email = self.cleaned_data['email']
+        user.first_name = self.cleaned_data['first_name']
+        user.last_name = self.cleaned_data['last_name']
+
+        if commit:
+            user.save()
+
+        return user

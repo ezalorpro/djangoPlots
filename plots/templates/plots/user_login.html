@@ -1,5 +1,14 @@
 {% extends 'plots/base.html' %}
 
+{% block cssContent %}
+<style>
+  .input-field label {
+    pointer-events: all !important;
+    margin-top: -10px !important;
+  }
+</style>
+{% endblock cssContent %}
+
 {% block content %}
 
 <div class="row">
@@ -8,46 +17,41 @@
       <input type="hidden" name="next"
         value="{% if request.POST.next %}{{ request.POST.next }}{% else %}{{ request.GET.next }}{% endif %}" />
 
-      <div class="row">
-        <div class="col s12">
-          <h4> Ingresar </h4>
-        </div>
+      <div class="col s12 center" style="margin-bottom: 10px;">
+        <h5> Ingresar </h5>
       </div>
 
       {% csrf_token %}
       {% for field in form %}
-      <div class="row">
-        <div class="input-field col s12">
-          {{ field }}
-          <label for="{{ field.name }}" class="active ">{{ field.label }}</label>
+      <div class="input-field col s12">
 
-          {% if field.errors %}
-          <ul>
-            {% for error in field.errors %}
-            <li><span class="red-text text-darken-1">{{ error }}</span></li>
-            {% endfor %}
-          </ul>
-          {% endif %}
+        {{ field }}
+        <label for="{{ field.auto_id }}" class="active">{{ field.label }}</label>
 
-        </div>
+        {% if field.errors %}
+        <ul>
+          {% for error in field.errors %}
+          <li><span class="red-text text-darken-1">{{ error }}</span></li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+
       </div>
+
       {% endfor %}
       {% if form.non_field_errors  %}
-      <div class="row">
-        <div class="col s12">
-          <ul>
-            <li><span class="red-text text-darken-1">{{ form.non_field_errors }}</span></li>
-          </ul>
-        </div>
+      <div class="col s12">
+        <ul style="margin-top: -10px;">
+          <li><span class="red-text text-darken-1">{{ form.non_field_errors }}</span></li>
+        </ul>
       </div>
       {% endif %}
 
-      <div class="row">
-        <div class="col s12">
-          <button type="submit" class="btn waves-effect waves-light light-blue accent-4">Enviar<i
-              class="material-icons right">send</i></button>
-        </div>
+      <div class="col s12" style="margin-bottom: 20px">
+        <button type="submit" class="btn waves-effect waves-light light-blue accent-4">Enviar<i
+            class="material-icons right">send</i></button>
       </div>
+
     </form>
   </div>
 </div>

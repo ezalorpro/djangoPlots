@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
 
@@ -8,18 +8,9 @@
 
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-  <link href="http://cdn.bokeh.org/bokeh/release/bokeh-2.0.0.min.css" rel="stylesheet" type="text/css">
-  <link href="http://cdn.bokeh.org/bokeh/release/bokeh-widgets-2.0.0.min.css" rel="stylesheet" type="text/css">
 
-  <style>
-    .carousel .indicators .indicator-item {
-    background-color: rgba(0, 0, 0, 0.5);
-    }
-
-    .carousel .indicators .indicator-item.active {
-    background-color: black;
-    }
-  </style>
+  {% block cssContent %}
+  {% endblock cssContent %}
 
 </head>
 
@@ -75,9 +66,9 @@
     });
   </script>
 
-  
-  {% block scriptsPlots %}
-  {% endblock scriptsPlots %}
+
+  {% block scriptsContent %}
+  {% endblock scriptsContent %}
 
 </body>
 
