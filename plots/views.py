@@ -46,7 +46,7 @@ def update_data(request):
     data = request.POST
     x_data = json.loads(data['x_points'])
     y_data = json.loads(data['y_points'])
-    print(data)
+    
     # the updated/new plot
     p = plt.figure(sizing_mode='scale_width')
 

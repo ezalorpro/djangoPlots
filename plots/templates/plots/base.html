@@ -10,7 +10,17 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
   <link href="http://cdn.bokeh.org/bokeh/release/bokeh-2.0.0.min.css" rel="stylesheet" type="text/css">
   <link href="http://cdn.bokeh.org/bokeh/release/bokeh-widgets-2.0.0.min.css" rel="stylesheet" type="text/css">
-  
+
+  <style>
+    .carousel .indicators .indicator-item {
+    background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .carousel .indicators .indicator-item.active {
+    background-color: black;
+    }
+  </style>
+
 </head>
 
 <body>
@@ -45,7 +55,7 @@
     </div>
   </nav>
 
-  
+
   <main>
     <div class="container">
       {% block content %}
@@ -58,16 +68,17 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
   <script>
-    $(".dropdown-trigger").dropdown();
-
-    $(document).ready(function () {
-      $('.sidenav').sidenav();
+    M.AutoInit();
+    $('.carousel.carousel-slider').carousel({
+      fullWidth: true,
+      indicators: true
     });
   </script>
 
+  
   {% block scriptsPlots %}
   {% endblock scriptsPlots %}
-  
+
 </body>
 
 </html>
