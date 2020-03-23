@@ -12,31 +12,30 @@
 {% endblock cssContent %}
 
 {% block content %}
-
 <div class="card-panel hoverable">
   <div class="row">
-    <form id="id_formaPlots" class="col s12 m12 l6">
-      <h5 style="margin-bottom: 40px;" class="center"> Ingrese los vectores para (X, Y)</h5>
-      {% for field in form %}
-      <div class="input-field col s12">
-        {{ field }}
-        <label for="{{ field.name }}" class="active">{{ field.label }}</label>
-      </div>
-      {% endfor %}
-      <div class="col s12" style="margin-bottom: 20px">
-        <button id="graficar" type="submit" class="btn waves-effect waves-light light-blue accent-4">Enviar<i
-            class="material-icons right">send</i></button>
-      </div>
-    </form>
-
+    
     <div class="col s12 m12 l6">
-      <div id="plot-content">
-        {% autoescape off %}
-        {{div_bok}}
-        {{script_bok}}
-        {% endautoescape %}
-      </div>
+      <form id="id_formaPlots">
+        <h5 style="margin-bottom: 40px;" class="center"> Ingrese los vectores para (X, Y)</h5>
+        {% for field in form %}
+        <div class="input-field">
+          {{ field }}
+          <label for="{{ field.name }}" class="active">{{ field.label }}</label>
+        </div>
+        {% endfor %}
+        <button id="graficar" type="submit" class="btn waves-effect waves-light light-blue accent-4"
+          style="margin-bottom: 20px">Enviar<i class="material-icons right">send</i></button>
+      </form>
     </div>
+    
+    <div id="plot-content" class="col s12 m12 l6">
+      {% autoescape off %}
+      {{div_bok}}
+      {{script_bok}}
+      {% endautoescape %}
+    </div>
+  
   </div>
 </div>
 {% endblock content %}
@@ -60,7 +59,7 @@
           $('#plot-content').html(data)
         }
       })
-    }); 
+    });
   });
 </script>
 {% endblock scriptsContent %}
