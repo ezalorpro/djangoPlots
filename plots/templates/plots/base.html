@@ -15,6 +15,12 @@
 </head>
 
 <body>
+  <ul id="dropdown1" class="dropdown-content">
+    <li><a href="{% url 'plots:profile' %}">Perfil</a></li>
+    <li class="divider"></li>
+    <li><a href="{% url 'plots:logout'%}">Cerrar session</a></li>
+  </ul>
+
   <nav>
     <div class="nav-wrapper light-blue accent-4">
       <a href="{% url 'plots:Home' %}" class="brand-logo">:D</a>
@@ -28,7 +34,7 @@
       {% else %}
       <ul class="right hide-on-med-and-down">
         <li><a href="{% url 'plots:resultsplot' %}">Ploting</a></li>
-        <li><a href="{% url 'plots:logout'%}">Cerrar session</a></li>
+        <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">{{user.username}}</a></li>
       </ul>
       {% endif %}
       {% if user.is_anonymous %}
@@ -40,6 +46,7 @@
       {% else %}
       <ul class="sidenav" id="mobile-demo">
         <li><a href="{% url 'plots:resultsplot' %}">Ploting</a></li>
+        <li><a href="{% url 'plots:profile' %}">Perfil</a></li>
         <li><a href="{% url 'plots:logout'%}">Cerrar session</a></li>
       </ul>
       {% endif %}
@@ -60,13 +67,11 @@
 
   <script>
     M.AutoInit();
-    $('.carousel.carousel-slider').carousel({
-      fullWidth: true,
-      indicators: true
+    $('.dropdown-trigger').dropdown({
+      constrainWidth: false
     });
   </script>
-
-
+  
   {% block scriptsContent %}
   {% endblock scriptsContent %}
 

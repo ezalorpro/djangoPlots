@@ -44,3 +44,12 @@
 
 
 {% endblock content %}
+
+{% block scriptsContent %}
+  <script>
+    $('.carousel.carousel-slider').carousel({
+      fullWidth: true,
+      indicators: true
+    });
+  </script>
+{% endblock scriptsContent %}

@@ -1,12 +1,15 @@
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_protect
+from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, authenticate, logout
 from django.shortcuts import render, redirect
+from django.forms import inlineformset_factory
 from bokeh.embed import components
 from bokeh import plotting as plt
 
-from .forms import DataForm, RegistrationForm
+from .forms import DataForm, RegistrationForm, EditProfileForm
+from .models import UserProfile
 
 import json
 
@@ -63,7 +66,9 @@ def signup(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if form.is_valid():
-            form.save()
+            usuario = form.save()
+            perfil = UserProfile(user=usuario)
+            perfil.save()
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
@@ -96,3 +101,19 @@ def user_login(request):
 def logoutview(request):
     logout(request)
     return redirect('plots:Home')
+
+def profile(request):
+    perfil = UserProfile.objects.get(user=request.user)
+    return render(request, 'plots/profile.html', {
+        'perfil': perfil
+    })
+
+def edit_profile(request):
+    perfil = UserProfile.objects.get(user=request.user)
+    usuario = User.objects.get(username=request.user.username)
+    userForm = RegistrationForm(instance=usuario)
+    perfilForm = EditProfileForm(instance=perfil)
+    return render(request, 'plots/edit_profile.html', {
+        'userForm': userForm,
+        'perfilForm': perfilForm
+    })

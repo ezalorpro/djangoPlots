@@ -2,12 +2,14 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User 
 from django import forms
 
+from .models import UserProfile
+
 
 class DataForm(forms.Form):
     x_points = forms.CharField(label='Puntos de X', max_length=200)
     y_points = forms.CharField(label='Puntos de Y', max_length=200)
 
-
+ 
 class RegistrationForm(UserCreationForm):
     email = forms.EmailField(required=True)
     first_name = forms.CharField(label='Nombre', required=False)
@@ -29,3 +31,9 @@ class RegistrationForm(UserCreationForm):
             user.save()
 
         return user
+
+
+class EditProfileForm(forms.ModelForm):    
+    class Meta:
+        model = UserProfile
+        fields = ('avatar', 'location', 'gender', 'information')
