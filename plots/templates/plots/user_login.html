@@ -37,11 +37,11 @@
       </div>
       <div class="input-field col s12">
         <i class="material-icons prefix">lock_open</i>
-        <label for="{{ form.password1.auto_id }}" class="active">{{ form.password1.label }}</label>
+        <label for="{{ form.password.auto_id }}" class="active">{{ form.password.label }}</label>
         {{ form.password }}
-        {% if form.password1.errors %}
+        {% if form.password.errors %}
         <ul>
-          {% for error in form.password1.errors %}
+          {% for error in form.password.errors %}
           <li><span class="red-text text-darken-1">{{ error }}</span></li>
           {% endfor %}
         </ul>
