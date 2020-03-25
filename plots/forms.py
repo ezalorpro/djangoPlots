@@ -37,3 +37,18 @@ class EditProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ('avatar', 'location', 'gender', 'information')
+        widgets = {
+            'information': forms.Textarea(attrs={'class': 'materialize-textarea'}),
+        }
+        labels = {
+            "avatar": "Avatar",
+            "location": "Localizacion",
+            "gender": "Genero",
+            "information": "Informacion",
+        }
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('first_name', 'last_name', 'email')
+        

@@ -8,17 +8,18 @@
 <div class="row">
   <div class="col s8 offset-s2">
     <div class="card-panel hoverable ">
-      <div class="row">
+      <div class="row valign-wrapper">
         <div class="col s5 center">
-          <img src="{{MEDIA_URL}}{{perfil.avatar}}" />
-          <a href="{% url 'plots:edit_profile' %}" class="btn waves-effect waves-light light-blue accent-4">Editar perfil</a>
-          <p>Usuario: {{perfil.user.username}}</p>
+          <img src="{{MEDIA_URL}}{{perfil.avatar}}" class="circle responsive-img" style="height:150px; width: 150px;" />
+          <p class="flow-text">{{perfil.user.username}}</p>
         </div>
         <div class="col s7">
-          <p>Nombre: {{perfil.user.first_name}}{{perfil.user.last_name}}</p>
-          <p>Genero: {{perfil.gender}}</p>
-          <p>Localizacion: {{perfil.location}}</p>
-          <p>Informacion: {{perfil.information}}</p>
+          <p class="flow-text" style="font-size: 14pt;">Nombre: {{perfil.user.first_name}} {{perfil.user.last_name}}</p>
+          <p class="flow-text" style="font-size: 14pt;">Genero: {{perfil.gender}}</p>
+          <p class="flow-text" style="font-size: 14pt;">Localizacion: {{perfil.location}}</p>
+          <p class="flow-text" style="font-size: 14pt;">Informacion: {{perfil.information}}</p>
+          <a href="{% url 'plots:edit_profile' %}" class="btn waves-effect waves-light light-blue accent-4">Editar
+            perfil <i class="material-icons right">edit</i></a>
         </div>
       </div>
     </div>

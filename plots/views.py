@@ -3,16 +3,16 @@ from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, authenticate, logout
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect 
 from django.forms import inlineformset_factory
+from django.http import HttpResponse
 from bokeh.embed import components
 from bokeh import plotting as plt
 
-from .forms import DataForm, RegistrationForm, EditProfileForm
+from .forms import DataForm, RegistrationForm, EditProfileForm, UserProfileForm
 from .models import UserProfile
 
 import json
-
 # Create your views here.
 
 
@@ -22,44 +22,31 @@ def home(request):
 
 @login_required
 def resultsplot(request):
-    form = DataForm()
+    if request.method == 'POST':
+        data = request.POST
+        x_data = json.loads(data['x_points'])
+        y_data = json.loads(data['y_points'])
 
-    x_data = [0]
-    y_data = [0]
+        p = plt.figure(sizing_mode='scale_width')
+        p.line(x_data, y_data)
 
-    # the updated/new plot
-    p = plt.figure(sizing_mode='scale_width')
+        script_bok, div_bok = components(p)
+        
+        return HttpResponse([script_bok, div_bok])
+    else:
+        form = DataForm()
+        x_data = [0]
+        y_data = [0]
 
-    p.line(x_data, y_data)
+        p = plt.figure(sizing_mode='scale_width')
+        p.line(x_data, y_data)
+        script_bok, div_bok = components(p)
 
-    script_bok, div_bok = components(p)
-
-    return render(request, 'plots/resultsplot.html', context={
-        'form': form,
-        'div_bok': div_bok,
-        'script_bok': script_bok
-    })
-
-
-def update_data(request):
-    # extract nrow, ncol via ajax post - contained in request.form
-    data = request.POST
-    x_data = json.loads(data['x_points'])
-    y_data = json.loads(data['y_points'])
-
-    # the updated/new plot
-    p = plt.figure(sizing_mode='scale_width')
-
-    p.line(x_data, y_data)
-
-    script_bok, div_bok = components(p)
-
-    # return rendered html to the browser
-
-    return render(request, 'plots/update_data.html', {
-        'div_bok': div_bok,
-        'script_bok': script_bok
-    })
+        return render(request, 'plots/resultsplot.html', context={
+            'form': form,
+            'div_bok': div_bok,
+            'script_bok': script_bok
+        })
 
 
 def signup(request):
@@ -88,7 +75,7 @@ def user_login(request):
             password = request.POST.get('password')
             user = authenticate(username=username, password=password)
             login(request, user)
-            
+
             if request.POST.get('next', None):
                 return redirect(request.POST['next'])
             else:
@@ -102,18 +89,40 @@ def logoutview(request):
     logout(request)
     return redirect('plots:Home')
 
+
 def profile(request):
     perfil = UserProfile.objects.get(user=request.user)
     return render(request, 'plots/profile.html', {
         'perfil': perfil
     })
 
+
 def edit_profile(request):
-    perfil = UserProfile.objects.get(user=request.user)
-    usuario = User.objects.get(username=request.user.username)
-    userForm = RegistrationForm(instance=usuario)
-    perfilForm = EditProfileForm(instance=perfil)
-    return render(request, 'plots/edit_profile.html', {
-        'userForm': userForm,
-        'perfilForm': perfilForm
-    })
+    print(request.is_ajax())
+
+    if request.method == 'POST':
+        
+        perfil = UserProfile.objects.get(user=request.user)
+        usuario = User.objects.get(username=request.user.username)
+        user_form = UserProfileForm(request.POST, instance=usuario)
+        profile_form = EditProfileForm(
+            request.POST, request.FILES, instance=perfil)
+        
+        user_form.save()
+        profile_form.save()
+        
+        perfil = UserProfile.objects.get(user=request.user)
+        
+        return render(request, 'plots/profile.html', {
+            'perfil': perfil
+        })
+        
+    else:
+        perfil = UserProfile.objects.get(user=request.user)
+        usuario = User.objects.get(username=request.user.username)
+        userForm = UserProfileForm(instance=usuario)
+        perfilForm = EditProfileForm(instance=perfil)
+        return render(request, 'plots/edit_profile.html', {
+            'userForm': userForm,
+            'perfilForm': perfilForm
+        })
