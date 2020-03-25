@@ -31,6 +31,13 @@
             <div class="input-field">
               <label for="{{ field.auto_id }}" class="active">{{ field.label }}</label>
               {{ field }}
+              {% if field.errors %}
+              <ul style="margin-top: 0px; margin-bottom: 0px;">
+                {% for error in field.errors %}
+                <li><span class="red-text text-darken-1">{{ error }}</span></li>
+                {% endfor %}
+              </ul>
+              {% endif %}
             </div>
             {% endfor %}
           </div>
@@ -57,20 +64,6 @@
     </div>
   </div>
 </div>
-
-{% comment %} <form action="{% url 'plots:edit_profile' %}" method="post" enctype="multipart/form-data">
-  {% csrf_token %}
-  {{userForm.as_p}}
-  <div id="avatarImage">
-    <img src="{{perfilForm.instance.avatar.url}}" class="circle responsive-img" style="height:100px; width: 100px;" />
-  </div>
-  {{perfilForm.as_p}}
-  <button type="submit" class="btn waves-effect waves-light light-blue accent-4">Guardar<i
-      class="material-icons right">save</i></button>
-</form>
-<a href="{% url 'plots:profile' %}" class="btn waves-effect waves-light red darken-1">cancelar<i
-    class="material-icons right">cancel</i></a> {% endcomment %}
-
 
 {% endblock %}
 

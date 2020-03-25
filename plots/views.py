@@ -98,24 +98,29 @@ def profile(request):
 
 
 def edit_profile(request):
-    print(request.is_ajax())
 
     if request.method == 'POST':
         
         perfil = UserProfile.objects.get(user=request.user)
         usuario = User.objects.get(username=request.user.username)
-        user_form = UserProfileForm(request.POST, instance=usuario)
-        profile_form = EditProfileForm(
+        userForm = UserProfileForm(request.POST, instance=usuario)
+        perfilForm = EditProfileForm(
             request.POST, request.FILES, instance=perfil)
         
-        user_form.save()
-        profile_form.save()
-        
-        perfil = UserProfile.objects.get(user=request.user)
-        
-        return render(request, 'plots/profile.html', {
-            'perfil': perfil
-        })
+        if userForm.is_valid():
+            userForm.save()
+            perfilForm.save()
+            
+            perfil = UserProfile.objects.get(user=request.user)
+            
+            return render(request, 'plots/profile.html', {
+                'perfil': perfil
+            })
+        else:
+            return render(request, 'plots/edit_profile.html', {
+                'userForm': userForm,
+                'perfilForm': perfilForm
+            })
         
     else:
         perfil = UserProfile.objects.get(user=request.user)
