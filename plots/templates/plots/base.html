@@ -9,6 +9,55 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 
+  <style>
+    /* label color */
+    .input-field label {
+      color: #000 !important;
+    }
+
+    /* label focus color */
+    .input-field input:focus+label {
+      color: #0091ea !important;
+    }
+
+    /* label underline focus color */
+    .input-field input:focus {
+      border-bottom: 1px solid #0091ea !important;
+      box-shadow: 0 1px 0 0 #0091ea !important;
+    }
+
+    /* label focus color */
+    .input-field textarea:focus+label {
+      color: #0091ea !important;
+    }
+
+    /* label underline focus color */
+    .input-field textarea:focus {
+      border-bottom: 1px solid #0091ea !important;
+      box-shadow: 0 1px 0 0 #0091ea !important;
+    }
+
+    /* valid color */
+    .input-field input.valid {
+      border-bottom: 1px solid #0091ea !important;
+      box-shadow: 0 1px 0 0 #0091ea !important;
+    }
+
+    /* invalid color */
+    .input-field input.invalid {
+      border-bottom: 1px solid #e53935 !important;
+      box-shadow: 0 1px 0 0 #e53935 !important;
+    }
+
+    /* icon prefix focus color */
+    .input-field .prefix.active {
+      color: #0091ea;
+    }
+
+    .material-icons {
+      vertical-align: -5px !important;
+    }
+  </style>
   {% block cssContent %}
   {% endblock cssContent %}
 
@@ -71,7 +120,7 @@
       constrainWidth: false
     });
   </script>
-  
+
   {% block scriptsContent %}
   {% endblock scriptsContent %}
 

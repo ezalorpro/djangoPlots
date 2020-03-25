@@ -5,7 +5,7 @@ from django.db import models
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    avatar = models.ImageField(upload_to='plots', default='plots/default.jpg')
+    avatar = models.ImageField(upload_to='plots', default='plots/default.png')
     location = models.CharField(max_length=140)
     gender = models.CharField(max_length=140)
     information = models.TextField()

@@ -5,6 +5,7 @@
   .input-field label {
     pointer-events: all !important;
     margin-top: -10px !important;
+    color: #000;
   }
 </style>
 {% endblock cssContent %}
@@ -22,23 +23,31 @@
       </div>
 
       {% csrf_token %}
-      {% for field in form %}
       <div class="input-field col s12">
-
-        {{ field }}
-        <label for="{{ field.auto_id }}" class="active">{{ field.label }}</label>
-
-        {% if field.errors %}
+        <i class="material-icons prefix">perm_identity</i>
+        <label for="{{ form.username.auto_id }}" class="active">{{ form.username.label }}</label>
+        {{ form.username }}
+        {% if form.username.errors %}
         <ul>
-          {% for error in field.errors %}
+          {% for error in form.username.errors %}
           <li><span class="red-text text-darken-1">{{ error }}</span></li>
           {% endfor %}
         </ul>
         {% endif %}
-
+      </div>
+      <div class="input-field col s12">
+        <i class="material-icons prefix">lock_open</i>
+        <label for="{{ form.password1.auto_id }}" class="active">{{ form.password1.label }}</label>
+        {{ form.password }}
+        {% if form.password1.errors %}
+        <ul>
+          {% for error in form.password1.errors %}
+          <li><span class="red-text text-darken-1">{{ error }}</span></li>
+          {% endfor %}
+        </ul>
+        {% endif %}
       </div>
 
-      {% endfor %}
       {% if form.non_field_errors  %}
       <div class="col s12">
         <ul style="margin-top: -10px;">
@@ -47,9 +56,9 @@
       </div>
       {% endif %}
 
-      <div class="col s12" style="margin-bottom: 20px">
-        <button type="submit" class="btn waves-effect waves-light light-blue accent-4">Enviar<i
-            class="material-icons right">send</i></button>
+      <div class="col s12 right-align" style="margin-bottom: 20px">
+        <button type="submit" class="btn waves-effect waves-light light-blue accent-4">Acceder<i
+            class="material-icons right">check</i></button>
       </div>
 
     </form>

@@ -14,28 +14,33 @@
 {% block content %}
 <div class="card-panel hoverable">
   <div class="row">
-    
     <div class="col s12 m12 l6">
       <form id="id_formaPlots">
         <h5 style="margin-bottom: 40px;" class="center"> Ingrese los vectores para (X, Y)</h5>
-        {% for field in form %}
-        <div class="input-field">
-          {{ field }}
-          <label for="{{ field.name }}" class="active">{{ field.label }}</label>
+        <div class="input-field col s12">
+          <i class="material-icons prefix">border_horizontal</i>
+          <label for="{{ form.x_points.name }}" class="active">{{ form.x_points.label }}</label>
+          {{ form.x_points }}
         </div>
-        {% endfor %}
-        <button id="graficar" type="submit" class="btn waves-effect waves-light light-blue accent-4"
-          style="margin-bottom: 20px">Enviar<i class="material-icons right">done</i></button>
+        <div class="input-field col s12">
+          <i class="material-icons prefix">border_vertical</i>
+          <label for="{{ form.y_points.name }}" class="active">{{ form.y_points.label }}</label>
+          {{ form.y_points }}
+        </div>
+        <div class="col s12 right-align">
+          <button id="graficar" type="submit" class="btn waves-effect waves-light light-blue accent-4 "
+            style="margin-bottom: 20px">Enviar<i class="material-icons right">done</i></button>
+        </div>
       </form>
     </div>
-    
+
     <div id="plot-content" class="col s12 m12 l6">
       {% autoescape off %}
       {{div_bok}}
       {{script_bok}}
       {% endautoescape %}
     </div>
-  
+
   </div>
 </div>
 {% endblock content %}

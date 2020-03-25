@@ -13,7 +13,7 @@
           {% csrf_token %}
           <div class="col s12 m12 l5 center-align">
             <div class="col s12 center-align">
-              <img src="{{perfilForm.instance.avatar.url}}" class="circle responsive-img"
+              <img id="imgEdit" src="{{perfilForm.instance.avatar.url}}" class="circle responsive-img"
                 style="height:150px; width: 150px;" />
             </div>
             <label for="id_avatar" class="btn waves-effect waves-light light-blue accent-4"><i
@@ -27,35 +27,60 @@
             </div>
           </div>
           <div class="col s12 m12 l7">
-            {% for field in userForm %}
+
             <div class="input-field">
-              <label for="{{ field.auto_id }}" class="active">{{ field.label }}</label>
-              {{ field }}
-              {% if field.errors %}
+              <i class="material-icons prefix">person</i>
+              <label for="{{ userForm.first_name.auto_id }}" class="active">{{ userForm.first_name.label }}</label>
+              {{ userForm.first_name }}
+            </div>
+
+            <div class="input-field">
+              <i class="material-icons prefix">person_add</i>
+              <label for="{{ userForm.last_name.auto_id }}" class="active">{{ userForm.last_name.label }}</label>
+              {{ userForm.last_name }}
+            </div>
+
+            <div class="input-field">
+              <i class="material-icons prefix">mail_outline</i>
+              <label for="{{ userForm.email.auto_id }}" class="active">{{ userForm.email.label }}</label>
+              {{ userForm.email }}
+              {% if userForm.email.errors %}
               <ul style="margin-top: 0px; margin-bottom: 0px;">
-                {% for error in field.errors %}
+                {% for error in userForm.email.errors %}
                 <li><span class="red-text text-darken-1">{{ error }}</span></li>
                 {% endfor %}
               </ul>
               {% endif %}
             </div>
-            {% endfor %}
+
           </div>
           <div class="col s12 m12 l12">
-            {% for field in perfilForm %}
-            {% if not field.label == "Avatar" %}
+
             <div class="input-field">
-              <label for="{{ field.auto_id }}" class="active">{{ field.label }}</label>
-              {{ field }}
+              <i class="material-icons prefix">wc</i>
+              <label for="{{ perfilForm.gender.auto_id }}" class="active">{{ perfilForm.gender.label }}</label>
+              {{ perfilForm.gender }}
             </div>
-            {% endif %}
-            {% endfor %}
+
+            <div class="input-field">
+              <i class="material-icons prefix">location_city</i>
+              <label for="{{ perfilForm.location.auto_id }}" class="active">{{ perfilForm.location.label }}</label>
+              {{ perfilForm.location }}
+            </div>
+
+            <div class="input-field">
+              <i class="material-icons prefix">info</i>
+              <label for="{{ perfilForm.information.auto_id }}"
+                class="active">{{ perfilForm.information.label }}</label>
+              {{ perfilForm.information }}
+            </div>
+
             <div class="row right-align">
               <div class="col s12" style="margin-bottom: -35px;">
-                <button type="submit" class="btn waves-effect waves-light light-blue accent-4">Guardar<i
-                    class="material-icons right">save</i></button>
                 <a href="{% url 'plots:profile' %}" class="btn waves-effect waves-light red darken-1">cancelar<i
                     class="material-icons right">cancel</i></a>
+                <button type="submit" class="btn waves-effect waves-light light-blue accent-4">Guardar<i
+                    class="material-icons right">save</i></button>
               </div>
             </div>
           </div>
@@ -68,4 +93,21 @@
 {% endblock %}
 
 {% block scriptsContent %}
+<script type="text/javascript">
+  function readURL(input) {
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+
+      reader.onload = function (e) {
+        $('#imgEdit').attr('src', e.target.result);
+      }
+
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+
+  $("#id_avatar").change(function () {
+    readURL(this);
+  });
+</script>
 {% endblock scriptsContent %}

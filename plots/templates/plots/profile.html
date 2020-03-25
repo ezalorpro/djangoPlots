@@ -14,11 +14,14 @@
           <p class="flow-text">{{perfil.user.username}}</p>
         </div>
         <div class="col s7">
-          <p class="flow-text" style="font-size: 14pt;">Nombre: {{perfil.user.first_name}} {{perfil.user.last_name}}</p>
-          <p class="flow-text" style="font-size: 14pt;">Email: {{perfil.user.email}}</p>
-          <p class="flow-text" style="font-size: 14pt;">Genero: {{perfil.gender}}</p>
-          <p class="flow-text" style="font-size: 14pt;">Localizacion: {{perfil.location}}</p>
-          <p class="flow-text" style="font-size: 14pt;">Informacion: {{perfil.information}}</p>
+          <p class="flow-text" style="font-size: 14pt;"><i class="material-icons">person</i>
+            {{perfil.user.first_name}} {{perfil.user.last_name}}</p>
+          <p class="flow-text" style="font-size: 14pt;"><i class="material-icons">mail_outline</i> 
+            {{perfil.user.email}}</p>
+          <p class="flow-text" style="font-size: 14pt;"><i class="material-icons">wc</i> {{perfil.gender}}</p>
+          <p class="flow-text" style="font-size: 14pt;"><i class="material-icons">location_city</i> {{perfil.location}}
+          </p>
+          <p class="flow-text" style="font-size: 14pt;"><i class="material-icons">info</i> {{perfil.information}}</p>
           <a href="{% url 'plots:edit_profile' %}" class="btn waves-effect waves-light light-blue accent-4">Editar
             perfil <i class="material-icons right">edit</i></a>
         </div>

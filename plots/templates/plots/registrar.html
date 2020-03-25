@@ -2,10 +2,11 @@
 
 {% block cssContent %}
 <style>
-  .input-field label {
-    pointer-events: all !important;
-    margin-top: -10px !important;
-  }
+.input-field label {
+  pointer-events: all !important;
+  margin-top: -10px !important;
+  color: #000;
+}
 </style>
 {% endblock cssContent %}
 
@@ -20,8 +21,9 @@
       </div>
 
       <div class="input-field col s12 m12 l12">
-        {{ form.username }}
+        <i class="material-icons prefix">perm_identity</i>
         <label for="{{ field.username.auto_id }}" class="active ">{{ form.username.label }}</label>
+        {{ form.username }}
         {% if form.username.errors %}
         <ul style="margin-top: 0px; margin-bottom: 0px;">
           {% for error in form.username.errors %}
@@ -32,17 +34,20 @@
       </div>
 
       <div class="input-field col s12 m12 l6">
-        {{ form.first_name }}
+        <i class="material-icons prefix">person</i>
         <label for="{{ field.first_name.auto_id }}" class="active ">{{ form.first_name.label }}</label>
+        {{ form.first_name }}
       </div>
       <div class="input-field col s12 m12 l6">
-        {{ form.last_name }}
+        <i class="material-icons prefix">person_add</i>
         <label for="{{ field.last_name.auto_id }}" class="active ">{{ form.last_name.label }}</label>
+        {{ form.last_name }}
       </div>
 
       <div class="input-field col s12 m12 l12">
-        {{ form.email }}
+        <i class="material-icons prefix">mail_outline</i>
         <label for="{{ field.email.auto_id }}" class="active ">{{ form.email.label }}</label>
+        {{ form.email }}
         {% if form.email.errors %}
         <ul style="margin-top: 0px; margin-bottom: 0px;">
           {% for error in form.email.errors %}
@@ -53,12 +58,14 @@
       </div>
 
       <div class="input-field col s12 m12 l6">
-        {{ form.password1 }}
+        <i class="material-icons prefix">lock_open</i>
         <label for="{{ field.password1.auto_id }}" class="active ">{{ form.password1.label }}</label>
+        {{ form.password1 }}
       </div>
       <div class="input-field col s12 m12 l6">
-        {{ form.password2 }}
+        <i class="material-icons prefix">lock_outline</i>
         <label for="{{ field.password2.auto_id }}" class="active ">{{ form.password2.label }}</label>
+        {{ form.password2 }}
       </div>
 
       <div class="col s12">
@@ -78,7 +85,7 @@
         {% endif %}
       </div>
 
-      <div class="col s12" style="margin-bottom: 20px">
+      <div class="col s12 right-align" style="margin-bottom: 20px">
         <button type="submit" class="btn waves-effect waves-light light-blue accent-4">Enviar<i
             class="material-icons right">send</i></button>
       </div>
