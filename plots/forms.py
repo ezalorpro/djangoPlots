@@ -11,15 +11,31 @@ class DataForm(forms.Form):
 
  
 class RegistrationForm(UserCreationForm):
-    email = forms.EmailField(required=True)
+    
     first_name = forms.CharField(label='Nombre (opcional)', required=False)
-    last_name = forms.CharField(label='Apellido (opcional)',  required=False)
+    last_name = forms.CharField(label='Apellido (opcional)', required=False)
 
+    def __init__(self, *args, **kwargs):
+        super(RegistrationForm, self).__init__(*args, **kwargs)
+        self.fields['email'].required = True
+        self.fields['password1'].required = True
+        self.fields['password2'].required = True
 
     class Meta:
         model = User
         fields = ('username', 'first_name', 'last_name',
                   'email', 'password1', 'password2')
+        
+        widgets = {
+            'username': forms.TextInput(attrs={'class': 'validate'}),
+            'email': forms.EmailInput(attrs={'class': 'validate'}),
+            'password1': forms.PasswordInput(attrs={'class': 'validate'}),
+            'password2': forms.PasswordInput(attrs={'class': 'validate'}),
+        }
+        
+        labels = {
+            "email": "Correo electronico",
+        }
 
     def save(self, commit=True):
         user = super(RegistrationForm, self).save(commit=False)
@@ -34,6 +50,7 @@ class RegistrationForm(UserCreationForm):
 
 
 class EditProfileForm(forms.ModelForm):
+    
     def __init__(self, *args, **kwargs):
         super(EditProfileForm, self).__init__(*args, **kwargs)
         self.fields['location'].required = False
@@ -43,9 +60,11 @@ class EditProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ('avatar', 'location', 'gender', 'information')
+        
         widgets = {
             'information': forms.Textarea(attrs={'class': 'materialize-textarea'}),
         }
+        
         labels = {
             "avatar": "Avatar",
             "location": "Localizacion",
@@ -55,6 +74,7 @@ class EditProfileForm(forms.ModelForm):
 
 
 class UserProfileForm(forms.ModelForm):
+    
     def __init__(self, *args, **kwargs):
         super(UserProfileForm, self).__init__(*args, **kwargs)
         self.fields['first_name'].required = False
@@ -64,4 +84,14 @@ class UserProfileForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'email')
+        
+        widgets = {
+            'email': forms.EmailInput(attrs={'class': 'validate'}),
+        }
+        
+        labels = {
+            "first_name": "Nombre",
+            "last_name": "Apellido",
+            "email": "Correo electronico",
+        }
         
