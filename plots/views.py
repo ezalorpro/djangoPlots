@@ -63,7 +63,6 @@ def signup(request):
             return redirect('plots:Home')
     else:
         form = RegistrationForm()
-        print(form)
 
     return render(request, 'plots/registrar.html', {'form': form})
 
