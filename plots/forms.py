@@ -12,8 +12,8 @@ class DataForm(forms.Form):
  
 class RegistrationForm(UserCreationForm):
     email = forms.EmailField(required=True)
-    first_name = forms.CharField(label='Nombre', required=False)
-    last_name = forms.CharField(label='Apellido',  required=False)
+    first_name = forms.CharField(label='Nombre (opcional)', required=False)
+    last_name = forms.CharField(label='Apellido (opcional)',  required=False)
 
 
     class Meta:
