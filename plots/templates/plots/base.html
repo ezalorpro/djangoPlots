@@ -58,17 +58,22 @@
       vertical-align: -5px !important;
     }
   </style>
+
   {% block cssContent %}
   {% endblock cssContent %}
 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
 
 <body>
+  {% if user.is_authenticated %}
   <ul id="dropdown1" class="dropdown-content">
+    <li><a href="{% url 'plots:list_post' %}">Mis post</a></li>
     <li><a href="{% url 'plots:profile' %}">Perfil</a></li>
     <li class="divider"></li>
     <li><a href="{% url 'plots:logout'%}">Cerrar session</a></li>
   </ul>
+  {% endif %}
 
   <nav>
     <div class="nav-wrapper light-blue accent-4">
@@ -95,6 +100,7 @@
       {% else %}
       <ul class="sidenav" id="mobile-demo">
         <li><a href="{% url 'plots:resultsplot' %}">Ploting</a></li>
+        <li><a href="{% url 'plots:list_post' %}">Mis post</a></li>
         <li><a href="{% url 'plots:profile' %}">Perfil</a></li>
         <li><a href="{% url 'plots:logout'%}">Cerrar session</a></li>
       </ul>

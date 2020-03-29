@@ -2,7 +2,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User 
 from django import forms
 
-from .models import UserProfile
+from .models import UserProfile, Post
 
 
 class DataForm(forms.Form):
@@ -95,3 +95,7 @@ class UserProfileForm(forms.ModelForm):
             "email": "Correo electronico",
         }
         
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = {'user', 'title', 'post_text'}

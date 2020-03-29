@@ -12,7 +12,7 @@
 
 {% block content %}
 <div class="row">
-  <div class="card-panel hoverable col s8 offset-s2">
+  <div class="card-panel hoverable col s12 m10 l8 offset-m1 offset-l2">
     <form action="{% url 'plots:registrar' %}" method="POST" class="col s12">
       {% csrf_token %}
 

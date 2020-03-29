@@ -9,8 +9,8 @@ from django.http import HttpResponse
 from bokeh.embed import components
 from bokeh import plotting as plt
 
-from .forms import DataForm, RegistrationForm, EditProfileForm, UserProfileForm
-from .models import UserProfile
+from .forms import DataForm, RegistrationForm, EditProfileForm, UserProfileForm, PostForm
+from .models import UserProfile, Post
 
 import json
 # Create your views here.
@@ -107,7 +107,7 @@ def edit_profile(request):
         perfilForm = EditProfileForm(
             request.POST, request.FILES, instance=perfil)
         
-        if userForm.is_valid():
+        if userForm.is_valid() and perfilForm.is_valid():
             userForm.save()
             perfilForm.save()
             
@@ -131,3 +131,18 @@ def edit_profile(request):
             'userForm': userForm,
             'perfilForm': perfilForm
         })
+
+
+@login_required
+def list_of_post(request):
+    post_object = Post.objects.filter(user=request.user)
+    post_list = [item for item in post_object]
+    return render(request, 'plots/list_post.html', context={'post_list': post_list})
+
+@login_required  
+def post_view(request, post_id):
+    post = Post.objects.get(pk=post_id)
+    context = {
+        'post': post
+    }
+    return render(request, 'plots/post_template.html', context=context)

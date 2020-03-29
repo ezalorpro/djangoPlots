@@ -1,0 +1,23 @@
+{% extends "plots/base.html" %}
+
+{% block cssContent %}
+{% endblock cssContent %}
+
+{% block content %}
+
+<div class="row">
+  <div class="card-panel hoverable col s12 m10 l6 offset-m1 offset-l3 ">
+    <p>{{post.user.first_name}} {{post.user.last_name}}</p>
+    <p>{{post.title}}</p>
+    <p style="white-space: pre-line">{{post.post_text}}</p>
+    <p>{{post.post_date}}</p>
+    <p>{{post.post_modified}}</p>
+    <a href="{% url 'plots:list_post' %}">regresar</a>
+    <p> </p>
+  </div>
+</div>
+  
+{% endblock content %}
+
+{% block scriptsContent %}
+{% endblock scriptsContent %}
