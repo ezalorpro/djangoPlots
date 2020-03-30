@@ -47,8 +47,10 @@
 {% endblock content %}
 
 {% block scriptsContent %}
-<script src="{% static 'plots/bokeh-2.0.0.min.js' %}" type="text/javascript"></script>
-<script src="{% static 'plots/bokeh-widgets-2.0.0.min.js' %}" type="text/javascript"></script>
+
+<script src="{% static 'js/bokeh-2.0.0.min.js' %}" type="text/javascript"></script>
+<script src="{% static 'js/bokeh-widgets-2.0.0.min.js' %}" type="text/javascript"></script>
+
 <script type="text/javascript">
   $(document).ready(function () {
     $('#id_formaPlots').submit(function (e) {
