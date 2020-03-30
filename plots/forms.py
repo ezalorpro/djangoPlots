@@ -63,6 +63,7 @@ class EditProfileForm(forms.ModelForm):
 
         widgets = {
             'information': forms.Textarea(attrs={'class': 'materialize-textarea'}),
+            'gender': forms.Select(attrs={'class': 'light-blue-text text-accent-4'}),
         }
 
         labels = {
