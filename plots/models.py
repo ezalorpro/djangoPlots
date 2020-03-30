@@ -2,10 +2,12 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from django.db import models
 
+
 genero = (
     ('Hombre', 'Hombre'),
     ('Mujer', 'Mujer'),
 )
+
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -16,7 +18,7 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return 'Profile of user: {}'.format(self.user.username)
-    
+
     def save(self, *args, **kwargs):
         try:
             this = UserProfile.objects.get(id=self.id)
@@ -33,10 +35,15 @@ class Post(models.Model):
     post_text = models.TextField()
     post_date = models.DateTimeField(editable=False)
     post_modified = models.DateTimeField(editable=False)
-    
+
+    def __str__(self):
+        return (
+            f'Post de {self.user.username:<40} - Titulo: {self.title:>60} - Ultima modificacion:'
+            f' {self.post_date}'
+        )
+
     def save(self, *args, **kwargs):
         if not self.id:
             self.post_date = timezone.now()
         self.post_modified = timezone.now()
         return super(Post, self).save(*args, **kwargs)
-        

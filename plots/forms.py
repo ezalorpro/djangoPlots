@@ -1,5 +1,5 @@
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User 
+from django.contrib.auth.models import User
 from django import forms
 
 from .models import UserProfile, Post
@@ -9,9 +9,9 @@ class DataForm(forms.Form):
     x_points = forms.CharField(label='Puntos de X', max_length=200)
     y_points = forms.CharField(label='Puntos de Y', max_length=200)
 
- 
+
 class RegistrationForm(UserCreationForm):
-    
+
     first_name = forms.CharField(label='Nombre (opcional)', required=False)
     last_name = forms.CharField(label='Apellido (opcional)', required=False)
 
@@ -25,14 +25,14 @@ class RegistrationForm(UserCreationForm):
         model = User
         fields = ('username', 'first_name', 'last_name',
                   'email', 'password1', 'password2')
-        
+
         widgets = {
             'username': forms.TextInput(attrs={'class': 'validate'}),
             'email': forms.EmailInput(attrs={'class': 'validate'}),
             'password1': forms.PasswordInput(attrs={'class': 'validate'}),
             'password2': forms.PasswordInput(attrs={'class': 'validate'}),
         }
-        
+
         labels = {
             "email": "Correo electronico",
         }
@@ -50,21 +50,21 @@ class RegistrationForm(UserCreationForm):
 
 
 class EditProfileForm(forms.ModelForm):
-    
+
     def __init__(self, *args, **kwargs):
         super(EditProfileForm, self).__init__(*args, **kwargs)
         self.fields['location'].required = False
         self.fields['gender'].required = False
         self.fields['information'].required = False
-    
+
     class Meta:
         model = UserProfile
         fields = ('avatar', 'location', 'gender', 'information')
-        
+
         widgets = {
             'information': forms.Textarea(attrs={'class': 'materialize-textarea'}),
         }
-        
+
         labels = {
             "avatar": "Avatar",
             "location": "Localizacion",
@@ -74,7 +74,7 @@ class EditProfileForm(forms.ModelForm):
 
 
 class UserProfileForm(forms.ModelForm):
-    
+
     def __init__(self, *args, **kwargs):
         super(UserProfileForm, self).__init__(*args, **kwargs)
         self.fields['first_name'].required = False
@@ -84,18 +84,32 @@ class UserProfileForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'email')
-        
+
         widgets = {
             'email': forms.EmailInput(attrs={'class': 'validate'}),
         }
-        
+
         labels = {
             "first_name": "Nombre",
             "last_name": "Apellido",
             "email": "Correo electronico",
         }
-        
+
+
 class PostForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(PostForm, self).__init__(*args, **kwargs)
+        self.fields['title'].required = True
+
     class Meta:
         model = Post
-        fields = {'user', 'title', 'post_text'}
+        fields = {'title', 'post_text'}
+
+        widgets = {
+            'post_text': forms.Textarea(attrs={'class': 'materialize-textarea'}),
+        }
+
+        labels = {
+            'title': 'Titulo',
+            'post_text': 'Contenido del post',
+        }

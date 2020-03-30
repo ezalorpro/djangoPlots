@@ -3,7 +3,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, authenticate, logout
-from django.shortcuts import render, redirect 
+from django.shortcuts import render, redirect
 from django.forms import inlineformset_factory
 from django.http import HttpResponse
 from bokeh.embed import components
@@ -31,7 +31,7 @@ def resultsplot(request):
         p.line(x_data, y_data)
 
         script_bok, div_bok = components(p)
-        
+
         return HttpResponse([script_bok, div_bok])
     else:
         form = DataForm()
@@ -92,36 +92,37 @@ def logoutview(request):
 
 def profile(request):
     perfil = UserProfile.objects.get(user=request.user)
+    post_object = Post.objects.filter(user=request.user)
+    post_list = [item for item in post_object]
     return render(request, 'plots/profile.html', {
-        'perfil': perfil
+        'perfil': perfil,
+        'post_list': post_list
     })
 
 
 def edit_profile(request):
 
     if request.method == 'POST':
-        
+
         perfil = UserProfile.objects.get(user=request.user)
         usuario = User.objects.get(username=request.user.username)
         userForm = UserProfileForm(request.POST, instance=usuario)
         perfilForm = EditProfileForm(
             request.POST, request.FILES, instance=perfil)
-        
+
         if userForm.is_valid() and perfilForm.is_valid():
             userForm.save()
             perfilForm.save()
-            
+
             perfil = UserProfile.objects.get(user=request.user)
-            
-            return render(request, 'plots/profile.html', {
-                'perfil': perfil
-            })
+
+            return redirect('plots:profile')
         else:
             return render(request, 'plots/edit_profile.html', {
                 'userForm': userForm,
                 'perfilForm': perfilForm
             })
-        
+
     else:
         perfil = UserProfile.objects.get(user=request.user)
         usuario = User.objects.get(username=request.user.username)
@@ -139,10 +140,66 @@ def list_of_post(request):
     post_list = [item for item in post_object]
     return render(request, 'plots/list_post.html', context={'post_list': post_list})
 
-@login_required  
+
+@login_required
 def post_view(request, post_id):
     post = Post.objects.get(pk=post_id)
     context = {
         'post': post
     }
     return render(request, 'plots/post_template.html', context=context)
+
+
+@login_required
+def edit_post(request, post_id):
+    if request.method == 'POST':
+
+        post = Post.objects.get(pk=post_id)
+        post_form = PostForm(request.POST, instance=post)
+
+        if post_form.is_valid():
+            post_form.save()
+            post = Post.objects.get(pk=post_id)
+
+            return redirect('plots:post', post_id=post_id)
+        else:
+            return render(request, 'plots/edit_post.html', {
+                'post_form': post_form,
+                'post': post,
+            })
+    else:
+        post = Post.objects.get(pk=post_id)
+        post_form = PostForm(instance=post)
+        return render(request, 'plots/edit_post.html', {
+            'post_form': post_form,
+            'post': post,
+        })
+
+
+@login_required
+def delete_post(request, post_id):
+    if request.method == 'POST':
+        post = Post.objects.get(pk=post_id)
+        post.delete()
+        return redirect('plots:profile')
+    else:
+        return redirect('plots:Home')
+
+
+@login_required
+def new_post(request):
+    if request.method == 'POST':
+        post = Post(user=request.user)
+        post_form = PostForm(request.POST, instance=post)
+        if post_form.is_valid():
+            post = post_form.save()
+            return redirect('plots:post', post_id=post.id)
+        else:
+            return render(request, 'plots/new_post.html', {
+                'post_form': post_form,
+            })
+    else:
+        post_form = PostForm()
+        return render(request, 'plots/new_post.html', {
+            'post_form': post_form,
+        })

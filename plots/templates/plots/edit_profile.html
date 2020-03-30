@@ -86,7 +86,7 @@
 
             <div class="row right-align">
               <div class="col s12" style="margin-bottom: -35px;">
-                <a href="{% url 'plots:profile' %}" class="btn waves-effect waves-light red darken-1">cancelar<i
+                <a href="{{ request.META.HTTP_REFERER }}" class="btn waves-effect waves-light red darken-1">cancelar<i
                     class="material-icons right">cancel</i></a>
                 <button type="submit" class="btn waves-effect waves-light light-blue accent-4">Guardar<i
                     class="material-icons right">save</i></button>
