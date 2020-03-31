@@ -1,7 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, authenticate, logout
 from django.shortcuts import render, redirect
 from django.forms import inlineformset_factory
@@ -9,7 +8,7 @@ from django.http import HttpResponse
 from bokeh.embed import components
 from bokeh import plotting as plt
 
-from .forms import DataForm, RegistrationForm, EditProfileForm, UserProfileForm, PostForm
+from .forms import DataForm, RegistrationForm, EditProfileForm, UserProfileForm, PostForm, UserLoginForm
 from .models import UserProfile, Post
 
 import json
@@ -69,7 +68,7 @@ def signup(request):
 
 def user_login(request):
     if request.method == 'POST':
-        form = AuthenticationForm(request, data=request.POST)
+        form = UserLoginForm(request, data=request.POST)
         if form.is_valid():
             username = request.POST.get('username')
             password = request.POST.get('password')
@@ -81,15 +80,17 @@ def user_login(request):
             else:
                 return redirect('plots:Home')
     else:
-        form = AuthenticationForm()
+        form = UserLoginForm()
     return render(request, 'plots/user_login.html', {'form': form})
 
 
+@login_required
 def logoutview(request):
     logout(request)
     return redirect('plots:Home')
 
 
+@login_required
 def profile(request):
     perfil = UserProfile.objects.get(user=request.user)
     post_object = Post.objects.filter(user=request.user)
@@ -100,10 +101,9 @@ def profile(request):
     })
 
 
+@login_required
 def edit_profile(request):
-
     if request.method == 'POST':
-
         perfil = UserProfile.objects.get(user=request.user)
         usuario = User.objects.get(username=request.user.username)
         userForm = UserProfileForm(request.POST, instance=usuario)
@@ -122,7 +122,6 @@ def edit_profile(request):
                 'userForm': userForm,
                 'perfilForm': perfilForm
             })
-
     else:
         perfil = UserProfile.objects.get(user=request.user)
         usuario = User.objects.get(username=request.user.username)
