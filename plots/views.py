@@ -15,6 +15,10 @@ import json
 # Create your views here.
 
 
+def maindomain(request):
+    return redirect('plots:Home')
+
+
 def home(request):
     return render(request, 'plots/home.html')
 
