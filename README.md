@@ -1,2 +1,0 @@
-# djangoPlots
-Plots con django
