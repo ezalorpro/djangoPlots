@@ -30,23 +30,23 @@
 
             <div class="input-field">
               <i class="material-icons prefix">person</i>
-              <label for="{{ userForm.first_name.auto_id }}" class="active">{{ userForm.first_name.label }}</label>
-              {{ userForm.first_name }}
+              <label for="{{ perfilForm.first_name.auto_id }}" class="active">{{ perfilForm.first_name.label }}</label>
+              {{ perfilForm.first_name }}
             </div>
 
             <div class="input-field">
               <i class="material-icons prefix">person_add</i>
-              <label for="{{ userForm.last_name.auto_id }}" class="active">{{ userForm.last_name.label }}</label>
-              {{ userForm.last_name }}
+              <label for="{{ perfilForm.last_name.auto_id }}" class="active">{{ perfilForm.last_name.label }}</label>
+              {{ perfilForm.last_name }}
             </div>
 
             <div class="input-field">
               <i class="material-icons prefix">mail_outline</i>
-              <label for="{{ userForm.email.auto_id }}" class="active">{{ userForm.email.label }}</label>
-              {{ userForm.email }}
-              {% if userForm.email.errors %}
+              <label for="{{ perfilForm.email.auto_id }}" class="active">{{ perfilForm.email.label }}</label>
+              {{ perfilForm.email }}
+              {% if perfilForm.email.errors %}
               <ul style="margin-top: 0px; margin-bottom: 0px;">
-                {% for error in userForm.email.errors %}
+                {% for error in perfilForm.email.errors %}
                 <li><span class="red-text text-darken-1">{{ error }}</span></li>
                 {% endfor %}
               </ul>

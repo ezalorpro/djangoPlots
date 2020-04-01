@@ -8,8 +8,8 @@ from django.http import HttpResponse
 from bokeh.embed import components
 from bokeh import plotting as plt
 
-from .forms import DataForm, RegistrationForm, EditProfileForm, UserProfileForm, PostForm, UserLoginForm
-from .models import UserProfile, Post
+from .forms import DataForm, RegistrationForm, EditProfileForm, PostForm, UserLoginForm
+from .models import UserModel, Post
 
 import json
 # Create your views here.
@@ -56,9 +56,7 @@ def signup(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if form.is_valid():
-            usuario = form.save()
-            perfil = UserProfile(user=usuario)
-            perfil.save()
+            form.save()
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
@@ -96,11 +94,11 @@ def logoutview(request):
 
 @login_required
 def profile(request):
-    perfil = UserProfile.objects.get(user=request.user)
+    usuario = UserModel.objects.get(username=request.user.username)
     post_object = Post.objects.filter(user=request.user)
     post_list = [item for item in post_object]
     return render(request, 'plots/profile.html', {
-        'perfil': perfil,
+        'usuario': usuario,
         'post_list': post_list
     })
 
@@ -108,31 +106,24 @@ def profile(request):
 @login_required
 def edit_profile(request):
     if request.method == 'POST':
-        perfil = UserProfile.objects.get(user=request.user)
-        usuario = User.objects.get(username=request.user.username)
-        userForm = UserProfileForm(request.POST, instance=usuario)
+        usuario = UserModel.objects.get(username=request.user.username)
         perfilForm = EditProfileForm(
-            request.POST, request.FILES, instance=perfil)
+            request.POST, 
+            request.FILES, 
+            instance=usuario
+            )
 
-        if userForm.is_valid() and perfilForm.is_valid():
-            userForm.save()
+        if perfilForm.is_valid():
             perfilForm.save()
-
-            perfil = UserProfile.objects.get(user=request.user)
-
             return redirect('plots:profile')
         else:
             return render(request, 'plots/edit_profile.html', {
-                'userForm': userForm,
                 'perfilForm': perfilForm
             })
     else:
-        perfil = UserProfile.objects.get(user=request.user)
-        usuario = User.objects.get(username=request.user.username)
-        userForm = UserProfileForm(instance=usuario)
-        perfilForm = EditProfileForm(instance=perfil)
+        usuario = UserModel.objects.get(username=request.user.username)
+        perfilForm = EditProfileForm(instance=usuario)
         return render(request, 'plots/edit_profile.html', {
-            'userForm': userForm,
             'perfilForm': perfilForm
         })
 

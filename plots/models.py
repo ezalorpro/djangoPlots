@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
 from django.db import models
 
@@ -9,28 +9,27 @@ genero = (
 )
 
 
-class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+class UserModel(AbstractUser):
     avatar = models.ImageField(upload_to='plots', default='plots/default.png')
     location = models.CharField(max_length=140)
     gender = models.CharField(max_length=140, choices=genero)
     information = models.TextField()
 
     def __str__(self):
-        return 'Profile of user: {}'.format(self.user.username)
+        return 'Usuario: {}'.format(self.username)
 
     def save(self, *args, **kwargs):
         try:
-            this = UserProfile.objects.get(id=self.id)
+            this = UserModel.objects.get(id=self.id)
             if this.avatar != self.avatar:
                 this.avatar.delete(save=False)
         except:
             pass
-        super(UserProfile, self).save(*args, **kwargs)
+        super(UserModel, self).save(*args, **kwargs)
 
 
 class Post(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
     title = models.CharField(max_length=140)
     post_text = models.TextField()
     post_date = models.DateTimeField(editable=False)
