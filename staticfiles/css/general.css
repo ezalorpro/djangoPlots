@@ -1,6 +1,28 @@
+/* separacion iconos particular */
+.icon-separation {
+  margin-left: 3px;
+}
+
+/* separacion iconos particular */
+.icon-separation2 {
+  margin-right: 0px;
+  margin-left: 8px;
+}
+
+/* indicador del carousel color */
+.carousel .indicators .indicator-item {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* indicador activo del carousel color */
+.carousel .indicators .indicator-item.active {
+  background-color: black;
+}
+
 /* label color */
 .input-field label {
-  color: #000 !important;
+  pointer-events: all !important;
+  color: #000;
 }
 
 /* label focus color */
