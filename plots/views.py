@@ -1,18 +1,15 @@
-from django.contrib.auth.decorators import login_required
-from django.views.decorators.csrf import csrf_protect
-from django.contrib.auth.models import User
-from django.contrib.auth import login, authenticate, logout
-from django.shortcuts import render, redirect
-from django.forms import inlineformset_factory
-from django.http import HttpResponse
-from bokeh.embed import components
-from bokeh import plotting as plt
-
-from .forms import DataForm, RegistrationForm, EditProfileForm, PostForm, UserLoginForm
-from .models import UserModel, Post
-
 import json
-# Create your views here.
+
+from bokeh import plotting as plt
+from bokeh.embed import components
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
+from django.shortcuts import redirect, render
+
+from .forms import (DataForm, EditProfileForm, PostForm, RegistrationForm,
+                    UserLoginForm)
+from .models import Post, UserModel
 
 
 def maindomain(request):
