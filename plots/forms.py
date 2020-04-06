@@ -44,25 +44,21 @@ class RegistrationForm(UserCreationForm):
             'username': forms.TextInput(
                 attrs={
                     'class': 'validate',
-                    'placeholder': 'usuario'
                     }
                 ),
             'email': forms.EmailInput(
                 attrs={
                     'class': 'validate',
-                    'placeholder': 'correo@mail.com'
                     }
                 ),
             'first_name': forms.TextInput(
                 attrs={
                     'class': 'validate',
-                    'placeholder': 'Primer apellido'
                     }
                 ),
             'last_name': forms.TextInput(
                 attrs={
                     'class': 'validate',
-                    'placeholder': 'Primer apellido'
                     }
                 )
             }
@@ -84,7 +80,6 @@ class RegistrationForm(UserCreationForm):
         self.fields['password1'].widget = forms.PasswordInput(
             attrs={
                 'autocomplete': 'new-password',
-                'placeholder': '', 
                 'class': 'validate'
                 }
             )
@@ -92,7 +87,6 @@ class RegistrationForm(UserCreationForm):
         self.fields['password2'].widget = forms.PasswordInput(
             attrs={
                 'autocomplete': 'new-password',
-                'placeholder': '',
                 'class': 'validate'
                 }
             )

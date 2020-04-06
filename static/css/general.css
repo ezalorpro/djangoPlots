@@ -9,6 +9,50 @@
   margin-left: 8px;
 }
 
+.input-field span.valido {
+  display: none;
+  position: static;
+  color: #0091ea !important;
+  padding: 15px;
+  margin-top: 0px;
+  margin-left: 45px;
+  border: solid #0091ea 1px;
+  border-radius: 3px;
+}
+
+.input-field span.invalido {
+  display: none;
+  position: static;
+  color: #e53935 !important;
+  padding: 15px;
+  margin-top: 0px;
+  margin-left: 45px;
+  border: solid #e53935 1px;
+  border-radius: 3px;
+}
+
+.input-field ul li span.invalido {
+  display: none;
+  position: static;
+  color: #e53935 !important;
+  padding: 15px;
+  margin-top: 0px;
+  margin-left: 45px;
+  border: solid #e53935 1px;
+  border-radius: 3px;
+}
+
+.col ul.invalido {
+  display: none;
+  position: static;
+  color: #e53935 !important;
+  padding: 15px;
+  margin-top: 0px;
+  margin-left: 45px;
+  border: solid #e53935 1px;
+  border-radius: 3px;
+}
+
 /* indicador del carousel color */
 .carousel .indicators .indicator-item {
   background-color: rgba(0, 0, 0, 0.5);

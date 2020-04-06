@@ -4,7 +4,7 @@ from bokeh import plotting as plt
 from bokeh.embed import components
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 
 from .forms import (DataForm, EditProfileForm, PostForm, RegistrationForm,
@@ -59,10 +59,26 @@ def signup(request):
             user = authenticate(username=username, password=raw_password)
             login(request, user)
             return redirect('plots:Home')
-    else:
+    elif request.is_ajax():
+        try:
+            UserModel.objects.get(username=request.GET.get('name'))
+            flag = True
+        except:
+            flag = False
+            
+        data = {
+            'flag': flag
+        }
+        return JsonResponse(data)
+    else: 
         form = RegistrationForm()
 
     return render(request, 'plots/registrar.html', {'form': form})
+
+
+# def username_validation(request):
+#     print('holas')
+#     return HttpResponse('succes')
 
 
 def user_login(request):

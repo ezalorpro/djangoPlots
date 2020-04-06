@@ -43,8 +43,8 @@
 
       {% if form.non_field_errors  %}
       <div class="col s12">
-        <ul style="margin-top: -10px;">
-          <li><span class="red-text text-darken-1">{{ form.non_field_errors }}</span></li>
+        <ul class="invalido" style="display: block">
+          <li><span><i class="material-icons left">cancel</i> {{ form.non_field_errors }}</span></li>
         </ul>
       </div>
       {% endif %}

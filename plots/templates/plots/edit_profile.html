@@ -47,7 +47,8 @@
               {% if perfilForm.email.errors %}
               <ul style="margin-top: 0px; margin-bottom: 0px;">
                 {% for error in perfilForm.email.errors %}
-                <li><span class="red-text text-darken-1">{{ error }}</span></li>
+                <li><span class="invalido" style="display: block;"><i
+                      class="material-icons">cancel</i> {{ error }}</span></li>
                 {% endfor %}
               </ul>
               {% endif %}
@@ -86,7 +87,7 @@
 
             <div class="row right-align">
               <div class="col s12" style="margin-bottom: -35px;">
-                <a href="{{ request.META.HTTP_REFERER }}" class="btn waves-effect waves-light red darken-1">cancelar<i
+                <a href="{% url 'plots:profile' %}" class="btn waves-effect waves-light red darken-1">cancelar<i
                     class="material-icons right">cancel</i></a>
                 <button type="submit" class="btn waves-effect waves-light light-blue accent-4">Guardar<i
                     class="material-icons right">save</i></button>
