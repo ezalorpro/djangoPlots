@@ -9,26 +9,16 @@
   margin-left: 8px;
 }
 
-.input-field span.valido {
-  display: none;
-  position: static;
+span.valido {
   color: #0091ea !important;
-  padding: 15px;
-  margin-top: 0px;
-  margin-left: 45px;
-  border: solid #0091ea 1px;
-  border-radius: 3px;
+  margin-top: 5px;
+  margin-bottom: 15px;
 }
 
-.input-field span.invalido {
-  display: none;
-  position: static;
+span.invalido {
   color: #e53935 !important;
-  padding: 15px;
-  margin-top: 0px;
-  margin-left: 45px;
-  border: solid #e53935 1px;
-  border-radius: 3px;
+  margin-top: 5px;
+  margin-bottom: 15px;
 }
 
 .input-field ul li span.invalido {
@@ -51,6 +41,22 @@
   margin-left: 45px;
   border: solid #e53935 1px;
   border-radius: 3px;
+}
+
+ul.valido {
+  display: block;
+  position: static;
+  padding: 15px;
+  margin-top: 10px;
+  border: solid #0090ea80 1px;
+  border-radius: 3px;
+}
+
+ul.valido li {
+  float: none;
+  vertical-align: middle;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 /* indicador del carousel color */

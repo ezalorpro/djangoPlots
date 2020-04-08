@@ -6,6 +6,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
 
 from .forms import (DataForm, EditProfileForm, PostForm, RegistrationForm,
                     UserLoginForm)
@@ -60,15 +62,28 @@ def signup(request):
             login(request, user)
             return redirect('plots:Home')
     elif request.is_ajax():
-        try:
-            UserModel.objects.get(username=request.GET.get('name'))
-            flag = True
-        except:
-            flag = False
-            
-        data = {
-            'flag': flag
-        }
+        if request.GET.get('tipo') == 'username':
+            data = {
+                'flag': UserModel.objects.filter(username=request.GET.get('name', None)).exists()
+            }
+        elif request.GET.get('tipo') == 'email':
+            try:
+                validate_email(request.GET.get('email', None))
+                if UserModel.objects.filter(email=request.GET.get('email', None)).exists():
+                    data = {
+                        'flag': False,
+                        'info': 'Correo electronico ya registrado, ingrese otro',
+                    }
+                else:
+                    data = {
+                        'flag': True,
+                        'info': '',
+                    }
+            except ValidationError as e:
+                data = {
+                    'flag': False,
+                    'info': 'Ingrese una dirección de correo electrónico válida.',
+                }                
         return JsonResponse(data)
     else: 
         form = RegistrationForm()

@@ -32,7 +32,29 @@ class DataForm(forms.Form):
         )
 
 
-class RegistrationForm(UserCreationForm):
+class RegistrationForm(forms.ModelForm):
+    
+    password1 = forms.CharField(
+        label=_("Password"),
+        strip=False,
+        widget=forms.PasswordInput(
+            attrs={
+                'autocomplete': 'new-password',
+                'class': 'validate'
+                }
+            ),
+        )
+    password2 = forms.CharField(
+        label=_("Password confirmation"),
+        strip=False,
+        widget=forms.PasswordInput(
+            attrs={
+                'autocomplete': 'new-password',
+                'class': 'validate'
+                }
+            ),
+        )
+    
     class Meta:
         model = UserModel
         fields = (
