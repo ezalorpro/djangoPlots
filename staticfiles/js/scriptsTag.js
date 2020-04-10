@@ -146,14 +146,19 @@ $(document).ready(function () {
             difflib['SequenceMatcher'](valor, $('#id_username').val());
             var comp_username = difflib.ratio()
             
-            difflib['SequenceMatcher'](valor, $('#id_email').val());
+            difflib['SequenceMatcher'](valor, $('#id_email').val().split('@')[0]);
             var comp_email = difflib.ratio()
             
             difflib['SequenceMatcher'](valor, $('#id_first_name').val());
             var comp_first = difflib.ratio()
             
             difflib['SequenceMatcher'](valor, $('#id_last_name').val());
-            var comp_last       = difflib.ratio()
+            var comp_last = difflib.ratio()
+
+            console.log('comparacion 1: ' + comp_username);
+            console.log('comparacion 1: ' + comp_email);
+            console.log('comparacion 1: ' + comp_first);
+            console.log('comparacion 1: ' + comp_last);
 
             max_comp = Math.max(comp_username, comp_email, comp_first, comp_last)
 

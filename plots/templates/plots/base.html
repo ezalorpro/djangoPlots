@@ -6,8 +6,8 @@
   {% load static %}
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Probando los templates</title>
-  
+  <title>Pagina boleta</title>
+
   <link rel="stylesheet" type="text/css" href="{% static 'css/materialicons.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'css/materialize.min.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'css/general.css' %}">
@@ -18,55 +18,78 @@
 </head>
 
 <body>
-  {% if user.is_authenticated %}
-  <ul id="dropdown1" class="dropdown-content">
-    <li><a href="{% url 'plots:list_post' %}" class="light-blue-text text-accent-4">Mis post</a></li>
-    <li><a href="{% url 'plots:profile' %}" class="light-blue-text text-accent-4">Perfil</a></li>
-    <li class="divider"></li>
-    <li><a href="{% url 'plots:logout'%}" class="light-blue-text text-accent-4">Cerrar session</a></li>
-  </ul>
-  {% endif %}
+  <main>
+    <header>
+      <div class="navbar-fixed">
+        <nav>
+          {% if user.is_authenticated %}
+          <ul id="dropdown1" class="dropdown-content">
+            <li><a href="{% url 'plots:list_post' %}" class="light-blue-text text-accent-4">Mis post</a></li>
+            <li><a href="{% url 'plots:profile' %}" class="light-blue-text text-accent-4">Perfil</a></li>
+            <li class="divider"></li>
+            <li><a href="{% url 'plots:logout'%}" class="light-blue-text text-accent-4">Cerrar session</a></li>
+          </ul>
+          {% endif %}
+          <div class="nav-wrapper light-blue accent-4">
+            <a href="{% url 'plots:Home' %}" class="brand-logo">Intento de pagina</a>
+            <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+            {% if user.is_anonymous %}
+            <ul class="right hide-on-med-and-down">
+              <li><a href="{% url 'plots:resultsplot' %}">Ploting</a></li>
+              <li><a href="{% url 'plots:registrar'%}">registrarse</a></li>
+              <li><a href="{% url 'plots:user_login' %}">login</a></li>
+            </ul>
+            {% else %}
+            <ul class="right hide-on-med-and-down">
+              <li><a href="{% url 'plots:resultsplot' %}">Ploting</a></li>
+              <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">{{user.username}}</a></li>
+            </ul>
+            {% endif %}
+          </div>
+        </nav>
+      </div>
 
-  <nav>
-    <div class="nav-wrapper light-blue accent-4">
-      <a href="{% url 'plots:Home' %}" class="brand-logo">:D</a>
-      <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
       {% if user.is_anonymous %}
-      <ul class="right hide-on-med-and-down">
+      <ul class="sidenav sidenav-fixed invesible-top col l1" id="mobile-demo">
         <li><a href="{% url 'plots:resultsplot' %}">Ploting</a></li>
         <li><a href="{% url 'plots:registrar'%}">registrarse</a></li>
         <li><a href="{% url 'plots:user_login' %}">login</a></li>
       </ul>
       {% else %}
-      <ul class="right hide-on-med-and-down">
-        <li><a href="{% url 'plots:resultsplot' %}">Ploting</a></li>
-        <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">{{user.username}}</a></li>
-      </ul>
-      {% endif %}
-      {% if user.is_anonymous %}
-      <ul class="sidenav" id="mobile-demo">
-        <li><a href="{% url 'plots:resultsplot' %}">Ploting</a></li>
-        <li><a href="{% url 'plots:registrar'%}">registrarse</a></li>
-        <li><a href="{% url 'plots:user_login' %}">login</a></li>
-      </ul>
-      {% else %}
-      <ul class="sidenav" id="mobile-demo">
-        <li><a href="{% url 'plots:resultsplot' %}">Ploting</a></li>
+      <ul class="sidenav sidenav-fixed invesible-top" id="mobile-demo">
+        <li><a href="{% url 'plots:resultsplot' %}" style="color: #0a0d1a;">Ploting</a></li>
         <li><a href="{% url 'plots:list_post' %}">Mis post</a></li>
-        <li><a href="{% url 'plots:profile' %}">Perfil</a></li>
+        <li>
+          <ul class="collapsible collapsible-accordion">
+            <li>
+              <a class="collapsible-header" tabindex="0">{{user.username}}</a>
+              <div class="collapsible-body">
+                <ul>
+                  <li>
+                    <a href="{% url 'plots:profile' %}">Ver perfil</a>
+                  </li>
+                  <li>
+                    <a href="{% url 'plots:edit_profile' %}">Editar perfil</a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </li>
         <li><a href="{% url 'plots:logout'%}">Cerrar session</a></li>
       </ul>
       {% endif %}
-    </div>
-  </nav>
+    </header>
 
-
-  <main>
-    <div class="container">
-      
-      {% block content %}
-      {% endblock %}
+    <div class="row content_margin">
+      <div class="container">
+        <div class="col s12 m12 l12">
+          {% block content %}
+          {% endblock %}
+        </div>
+      </div>
     </div>
+
   </main>
 
   <script src="{% static 'js/jquery-3.2.1.min.js' %}" type="text/javascript"></script>

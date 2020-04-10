@@ -6,7 +6,7 @@
 
 {% block content %}
 <div class="row">
-  <div class="card-panel col s12 m10 l7 valign-wraper">
+  <div class="card-panel col s12 m8 l8">
     <form action="{% url 'plots:registrar' %}" method="POST" class="col s12">
       {% csrf_token %}
 
@@ -88,7 +88,7 @@
     </form>
   </div>
 
-  <div class="col s12 m12 l4 offset-l1">
+  <div class="col s12 m4 l4">
     <ul class="valido">
       <li><span class="valido" id="user_exist"><i class="material-icons">info_outline</i> Ingrese un nombre de usuario</span>
       </li>
